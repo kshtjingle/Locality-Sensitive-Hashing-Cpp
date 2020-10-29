@@ -22,8 +22,8 @@ int main(){
 
     ifstream inpFile;
 
-    //inpFile.open("data\\dog_data.txt");
-    inpFile.open("data\\test.txt");
+    inpFile.open("data\\dog_data.txt");
+    //inpFile.open("data\\test.txt");
 
     if(!inpFile){
 
@@ -101,9 +101,12 @@ int main(){
 
     int ind = 0;
 
+    long long total = 0;
+
     for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
 
         cout << itr->first << " ";
+        total++;
 
         shinglesInd.push_back({ind, itr->first});
         ind++;
@@ -127,6 +130,109 @@ int main(){
     cout << docID << endl;
 
     inpFile.close();
+
+    watch(total);
+
+    vector<int> acoeff, bcoeff;
+
+    set<int> aco, bco;
+
+    for(int i = 0; i < 100; i++){
+
+        int r;
+
+        do{
+
+            r = rand() % (total + 1);
+
+        } while(aco.count(r) > 0);
+
+        acoeff.push_back(r);
+
+    }
+
+    for(int i = 0; i < 100; i++){
+
+        int r;
+
+        do{
+
+            r = rand() % (total + 1);
+
+        } while(bco.count(r) > 0);
+
+        bcoeff.push_back(r);
+
+    }
+
+    //Prime Number
+    int c = 227011;
+
+    for(int i = 0; i < acoeff.size(); i++){
+
+        cout << acoeff[i] << " ";
+
+    }
+
+    cout << endl;
+
+    for(int i = 0; i < bcoeff.size(); i++){
+
+        cout << bcoeff[i] << " ";
+
+    }
+
+    cout << endl;
+
+    vector<vector<int>> sigMatrix(831, vector<int>(100, INT_MAX));
+
+    int i = 0;
+
+    for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
+
+        int j = 0;
+
+        for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
+
+            //watch(*itr2);
+
+            for(int k = 0; k < 100; k++){
+
+                long long pot = ((i * acoeff[k]) % c + bcoeff[k]) % c;
+                int potential = pot;
+
+                /*watch(pot);
+                watch(potential);*/
+
+                if(potential < sigMatrix[*itr2][k]){
+
+                    sigMatrix[*itr2][k] = potential;
+
+                }
+
+            }
+
+            j++;
+
+        }
+
+        i++;
+
+    }
+
+    for(int i = 0; i < 830; i++){
+
+        for(int j = 0; j < 100; j++){
+
+            cout << sigMatrix[i][j] << " ";
+
+        }
+
+        cout << endl;
+
+    }
+
+
 
     return 0;
 
