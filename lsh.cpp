@@ -22,8 +22,8 @@ int main(){
 
     ifstream inpFile;
 
-    inpFile.open("data\\dog_data.txt");
-    //inpFile.open("data\\test.txt");
+    //inpFile.open("data\\dog_data.txt");
+    inpFile.open("data\\test.txt");
 
     if(!inpFile){
 
@@ -32,7 +32,7 @@ int main(){
 
     }
 
-    set<string> shingles;
+    map<string, set<int>> shingles;
     deque<char> shingle;
 
     char x;
@@ -72,7 +72,22 @@ int main(){
 
             shingle.push_back(x);
 
-            shingles.insert(constructShingle(shingle));
+            string shingleStr = constructShingle(shingle);
+
+            if(shingles.count(shingleStr) == 0){
+
+                set<int> temp;
+                temp.insert(docID);
+
+                shingles.insert({shingleStr, temp});
+
+            }
+
+            else{
+                
+                shingles[shingleStr].insert(docID);
+                
+            }
 
             shingle.pop_front();
 
@@ -80,15 +95,30 @@ int main(){
 
     }
 
-    auto stop = std::chrono::high_resolution_clock::now();
+    //auto stop = std::chrono::high_resolution_clock::now();
 
-    for(string x : shingles){
+    vector<pair<int, string>> shinglesInd;
 
-        cout << x << endl;
+    int ind = 0;
+
+    for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
+
+        cout << itr->first << " ";
+
+        shinglesInd.push_back({ind, itr->first});
+        ind++;
+
+        for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
+
+            cout << *itr2 << " ";
+
+        }
+
+        cout << endl;
 
     }
 
-    //auto stop = std::chrono::high_resolution_clock::now();
+    auto stop = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start); 
 
