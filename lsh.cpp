@@ -84,6 +84,8 @@ int main(){
 
     }
 
+    cout << docID << endl;
+
     inpFile.close();
 
     return 0;
