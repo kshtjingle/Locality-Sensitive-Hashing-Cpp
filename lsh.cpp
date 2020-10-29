@@ -42,6 +42,8 @@ int main(){
 
     //int numDocs = 0;
 
+    auto start = std::chrono::high_resolution_clock::now(); 
+
     while(inpFile >> x){
 
         if(x != 'A' && x != 'C' && x != 'G' && x != 'T'){
@@ -78,11 +80,19 @@ int main(){
 
     }
 
+    auto stop = std::chrono::high_resolution_clock::now();
+
     for(string x : shingles){
 
         cout << x << endl;
 
     }
+
+    //auto stop = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start); 
+
+    cout << duration.count() << endl;
 
     cout << docID << endl;
 
