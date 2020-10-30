@@ -20,6 +20,8 @@ string constructShingle(deque<char> &shingle){
 
 int main(){
 
+    srand(time(0));
+
     ifstream inpFile;
 
     inpFile.open("data\\dog_data.txt");
@@ -133,9 +135,9 @@ int main(){
 
     watch(total);
 
-    vector<int> acoeff, bcoeff;
+    vector<long long> acoeff, bcoeff;
 
-    set<int> aco, bco;
+    set<long long> aco, bco;
 
     for(int i = 0; i < 100; i++){
 
@@ -147,7 +149,7 @@ int main(){
 
         } while(aco.count(r) > 0);
 
-        acoeff.push_back(r);
+        acoeff.push_back((long long)r);
 
     }
 
@@ -161,12 +163,13 @@ int main(){
 
         } while(bco.count(r) > 0);
 
-        bcoeff.push_back(r);
+        bcoeff.push_back((long long)r);
 
     }
 
     //Prime Number
     int c = 227011;
+    //int c = 29;
 
     for(int i = 0; i < acoeff.size(); i++){
 
@@ -190,6 +193,8 @@ int main(){
 
     for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
 
+        //watch(i);
+
         int j = 0;
 
         for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
@@ -198,7 +203,9 @@ int main(){
 
             for(int k = 0; k < 100; k++){
 
-                long long pot = ((i * acoeff[k]) % c + bcoeff[k]) % c;
+                long long ccpy = c;
+
+                long long pot = (((i * acoeff[k]) + bcoeff[k])) % c;
                 int potential = pot;
 
                 /*watch(pot);
@@ -207,6 +214,8 @@ int main(){
                 if(potential < sigMatrix[*itr2][k]){
 
                     sigMatrix[*itr2][k] = potential;
+
+                    //watch(potential);
 
                 }
 
@@ -220,7 +229,7 @@ int main(){
 
     }
 
-    for(int i = 0; i < 830; i++){
+    for(int i = 0; i < 831; i++){
 
         for(int j = 0; j < 100; j++){
 
@@ -232,7 +241,88 @@ int main(){
 
     }
 
+    set<pair<int, int>> candidatePairs;
 
+    //Number of Bands, to be replaced by a variable later
+    int B = 20;
+
+    //Band Size, ditto
+    int R = 5;
+
+    for(int b = 0; b < B; b++){
+
+        map<vector<int>, set<int>> buckets;
+
+        for(int c = 0; c < 830; c++){
+
+            vector<int> band;
+
+            for(int p = b * R; p < (b + 1) * R; p++){
+
+                band.push_back(sigMatrix[c + 1][p]);
+
+            }
+
+            if(buckets.count(band) == 0){
+
+                set<int> tem;
+                tem.insert(c);
+
+                buckets.insert(pair<vector<int>, set<int>>(band, tem));
+
+            }
+
+            else{
+
+                buckets[band].insert(c);
+
+            }
+
+        }
+
+        for(auto itr = buckets.begin(); itr != buckets.end(); ++itr){
+
+            if(itr->second.size() < 2){
+
+                continue;
+
+            }
+
+            else{
+
+                vector<int> similar;
+
+                for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
+
+                    similar.push_back(*itr2);
+
+                }
+
+                for(int i = 0; i < similar.size(); i++){
+
+                    for(int j = i + 1; j < similar.size(); j++){
+
+                        candidatePairs.insert({similar[i], similar[j]});
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    for(auto itr = candidatePairs.begin(); itr != candidatePairs.end(); ++itr){
+
+        pair<int, int> temp = *itr;
+
+        cout << temp.first << " " << temp.second << "\n";
+
+    }
+
+    //watch(total);
 
     return 0;
 
