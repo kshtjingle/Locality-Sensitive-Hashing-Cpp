@@ -20,7 +20,15 @@ string constructShingle(deque<char> &shingle){
 
 int main(){
 
+    ios::sync_with_stdio(false);
+
     srand(time(0));
+
+    string query;
+
+    cout << "Enter query:" << " ";
+    cin >> query;
+    //cout << query << endl;
 
     ifstream inpFile;
 
@@ -39,18 +47,42 @@ int main(){
 
     char x;
 
-    int docID = 0;
+    int docID = -1;
     int isDoc = 0;
 
     //int numDocs = 0;
 
     auto start = std::chrono::high_resolution_clock::now(); 
 
+    vector<string> documents;
+    //documents.push_back("Indexing starts at 1, this is not a document");
+
+    //documents[0] = query;
+
+    //cout << documents[0] << endl;
+
+    string inp = "";
+
+    string data = query;
+    data.push_back(' ');
+
     while(inpFile >> x){
+
+        data.push_back(x);
+
+    }
+
+    for(char x : data){
 
         if(x != 'A' && x != 'C' && x != 'G' && x != 'T'){
 
             shingle.clear();
+
+            if(isDoc == 1){documents.push_back(inp);
+            //watch(inp);
+            //watch(documents.size());
+            inp.clear();}
+
             isDoc = 0;
 
         }
@@ -66,6 +98,8 @@ int main(){
 
             }
 
+            inp.push_back(x);
+
             shingle.push_back(x);
 
         }
@@ -73,6 +107,8 @@ int main(){
         else{
 
             shingle.push_back(x);
+
+            inp.push_back(x);
 
             string shingleStr = constructShingle(shingle);
 
@@ -107,19 +143,19 @@ int main(){
 
     for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
 
-        cout << itr->first << " ";
+        //cout << itr->first << " ";
         total++;
 
         shinglesInd.push_back({ind, itr->first});
         ind++;
 
-        for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
+        /*for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
 
             cout << *itr2 << " ";
 
         }
 
-        cout << endl;
+        cout << endl;*/
 
     }
 
@@ -127,9 +163,9 @@ int main(){
 
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start); 
 
-    cout << duration.count() << endl;
+    //cout << duration.count() << endl;
 
-    cout << docID << endl;
+    //cout << docID << endl;
 
     inpFile.close();
 
@@ -253,13 +289,13 @@ int main(){
 
         map<vector<int>, set<int>> buckets;
 
-        for(int c = 0; c < 830; c++){
+        for(int c = 0; c < 831; c++){
 
             vector<int> band;
 
             for(int p = b * R; p < (b + 1) * R; p++){
 
-                band.push_back(sigMatrix[c + 1][p]);
+                band.push_back(sigMatrix[c][p]);
 
             }
 
@@ -318,7 +354,18 @@ int main(){
 
         pair<int, int> temp = *itr;
 
-        cout << temp.first << " " << temp.second << "\n";
+        cout << endl;
+
+        cout << temp.first << " " << documents[temp.first] << "\n";
+        cout << temp.second << " " << documents[temp.second] << "\n";
+
+    }
+
+    cout << endl << endl;
+
+    for(int i = 0; i < 4; i++){
+
+        cout << documents[i] << endl;
 
     }
 
