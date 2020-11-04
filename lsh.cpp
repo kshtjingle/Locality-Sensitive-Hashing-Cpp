@@ -1,16 +1,40 @@
+/** @file lsh.cpp
+ * @brief Script that implements LSH algorithm to find similar DNA sequences
+ *@author 2017A7PS1226H - Manognya Bhattaram
+ *@author 2018A7PS0434H - Kshitij Ingle
+ *@author 2018A7PS0179H - Rhytham Choudhary
+*/
+
+/**
+*@author 2017A7PS1226H
+*@author 2018A7PS0434H
+*@author 2017A7PS0179H
+*\mainpage Description
+* The following project consists of a single C++ file which is the implementation of the LSH algorithm in the C++ language.<br>
+* The input file used for testing was a file with DNA sequences.<br>
+* The user inputs the shingle size, the number of hash functions to be used, and the threshold (percentage) above which strings are considered to be similar.<br>
+* The user then inputs the query string.<br>
+* The program outputs the DNA sequences which are similar to the query string based on the inputs given.<br>
+*/
+
 #include<bits/stdc++.h>
 
 using namespace std;
 
-//Shingle size
-int S;
+int S; /*!< Shingle size*/
 
-//Utility Macro
+
 #define watch(x) cout << (#x) << " is " << (x) << endl
+/*!<Utility Macro*/
 
-//Utility function to return a shingle at each step while reading the input file
+/*! \file */
+/*! string constructShingle(deque<char>)
+ \brief Utility function to return a shingle at each step while reading the input file
+ \param shingle a deque of characters which are the characters in the shingle
+ \return A string representing the shingle
+*/
 string constructShingle(deque<char> &shingle){
-    
+
     string ret;
 
     for(int i = 0; i < S; i++){
@@ -22,7 +46,12 @@ string constructShingle(deque<char> &shingle){
     return ret;
 
 }
-
+/*! \file */
+/*! \brief The main algorithm implementation is in the main function<br>
+  * The main function performs shingling on the input sequence, calculates the signature matrix by performing minhashing,<br>
+  and computes the Jaccard Similarity between two sequences.
+  \return int 0
+*/
 int main(){
 
     ios::sync_with_stdio(false);
@@ -33,8 +62,9 @@ int main(){
     cout << "Enter Shingle Size: ";
     cin >> S;
 
-    //Size of the signature matrix, same as Number of hash functions for minhashing
+    //Size of the signature matrix, same as Number of hash functions for minhashings
     int H;
+
     cout << "Enter a size for the signature matrix: ";
     cin >> H;
 
@@ -60,7 +90,6 @@ int main(){
     ifstream inpFile;
 
     inpFile.open("data\\dog_data.txt");
-    //inpFile.open("data\\test.txt");
 
     if(!inpFile){
 
@@ -76,8 +105,6 @@ int main(){
     cout << "Enter query:" << " ";
     cin >> query;
 
-    //cout << query << endl;
-
     //Stores the shingles and the docIDs in which they appear
     map<string, set<int>> shingles;
 
@@ -89,17 +116,11 @@ int main(){
     int docID = -1;
     int isDoc = 0;
 
-    //int numDocs = 0;
-
-    auto start = std::chrono::high_resolution_clock::now(); 
+    auto start = std::chrono::high_resolution_clock::now();
 
     //Stores documents, the index is the docID, index 0 is the query document.
     vector<string> documents;
-    //documents.push_back("Indexing starts at 1, this is not a document");
 
-    //documents[0] = query;
-
-    //cout << documents[0] << endl;
 
     string inp = "";
 
@@ -120,8 +141,6 @@ int main(){
             shingle.clear();
 
             if(isDoc == 1){documents.push_back(inp);
-            //watch(inp);
-            //watch(documents.size());
             inp.clear();}
 
             isDoc = 0;
@@ -134,8 +153,6 @@ int main(){
 
                 isDoc = 1;
                 docID++;
-
-                //numDocs++;
 
             }
 
@@ -163,9 +180,9 @@ int main(){
             }
 
             else{
-                
+
                 shingles[shingleStr].insert(docID);
-                
+
             }
 
             shingle.pop_front();
@@ -173,8 +190,6 @@ int main(){
         }
 
     }
-
-    //auto stop = std::chrono::high_resolution_clock::now();
 
     vector<pair<int, string>> shinglesInd;
 
@@ -184,25 +199,16 @@ int main(){
 
     for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
 
-        //cout << itr->first << " ";
         total++;
 
         shinglesInd.push_back({ind, itr->first});
         ind++;
 
-        /*for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
-
-            cout << *itr2 << " ";
-
-        }
-
-        cout << endl;*/
-
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
 
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start); 
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
 
     //cout << duration.count() << endl;
 
@@ -210,7 +216,7 @@ int main(){
 
     inpFile.close();
 
-    /*-------------Randomly generting H hash functions-------------*/
+    /*-------------Randomly generating H hash functions-------------*/
     vector<long long> acoeff, bcoeff;
 
     set<long long> aco, bco;
@@ -245,23 +251,6 @@ int main(){
 
     //Prime Number
     int c = 227011;
-    //int c = 29;
-
-    /*for(int i = 0; i < acoeff.size(); i++){
-
-        cout << acoeff[i] << " ";
-
-    }
-
-    cout << endl;
-
-    for(int i = 0; i < bcoeff.size(); i++){
-
-        cout << bcoeff[i] << " ";
-
-    }
-
-    cout << endl;*/
 
     //Signature Matrix
     vector<vector<int>> sigMatrix(831, vector<int>(H, INT_MAX));
@@ -298,20 +287,8 @@ int main(){
 
     }
 
-    //Uncomment this to output the whole signature matrix
-    /*for(int i = 0; i < 831; i++){
 
-        for(int j = 0; j < 100; j++){
-
-            cout << sigMatrix[i][j] << " ";
-
-        }
-
-        cout << endl;
-
-    }*/
-
-    //Stroes Candidte Pairs of Documents
+    //Stores Candidate Pairs of Documents
     set<pair<int, int>> candidatePairs;
 
     for(int b = 0; b < B; b++){

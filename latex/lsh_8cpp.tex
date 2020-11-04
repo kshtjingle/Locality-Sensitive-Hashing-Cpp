@@ -1,0 +1,94 @@
+\hypertarget{lsh_8cpp}{}\doxysection{lsh.\+cpp File Reference}
+\label{lsh_8cpp}\index{lsh.cpp@{lsh.cpp}}
+
+
+Script that implements L\+SH algorithm to find similar D\+NA sequences.  
+
+
+{\ttfamily \#include $<$bits/stdc++.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{lsh_8cpp_a4f0ed6799a6250dec3a22d37e23eb4de}{watch}}(x)~cout $<$$<$ (\#x) $<$$<$ \char`\"{} is \char`\"{} $<$$<$ (x) $<$$<$ endl
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{lsh_8cpp_ac3fb8c2958675bf09d1a3739e21f7274}{construct\+Shingle}} (deque$<$ char $>$ \&shingle)
+\begin{DoxyCompactList}\small\item\em Utility function to return a shingle at each step while reading the input file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lsh_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em The main algorithm implementation is in the main function~\newline
+ The main function performs shingling on the input sequence, calculates the signature matrix by performing minhashing,~\newline
+ and computes the Jaccard Similarity between two sequences. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{lsh_8cpp_a20a0f494ca2c397f664e1911db5e084b}{S}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Script that implements L\+SH algorithm to find similar D\+NA sequences. 
+
+\begin{DoxyAuthor}{Author}
+2017A7\+P\+S1226H -\/ Manognya Bhattaram 
+
+2018A7\+P\+S0434H -\/ Kshitij Ingle 
+
+2018A7\+P\+S0179H -\/ Rhytham Choudhary
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{lsh_8cpp_a4f0ed6799a6250dec3a22d37e23eb4de}\label{lsh_8cpp_a4f0ed6799a6250dec3a22d37e23eb4de}} 
+\index{lsh.cpp@{lsh.cpp}!watch@{watch}}
+\index{watch@{watch}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{watch}{watch}}
+{\footnotesize\ttfamily \#define watch(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~cout $<$$<$ (\#x) $<$$<$ \char`\"{} is \char`\"{} $<$$<$ (x) $<$$<$ endl}
+
+Utility Macro 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lsh_8cpp_ac3fb8c2958675bf09d1a3739e21f7274}\label{lsh_8cpp_ac3fb8c2958675bf09d1a3739e21f7274}} 
+\index{lsh.cpp@{lsh.cpp}!constructShingle@{constructShingle}}
+\index{constructShingle@{constructShingle}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{constructShingle()}{constructShingle()}}
+{\footnotesize\ttfamily string construct\+Shingle (\begin{DoxyParamCaption}\item[{deque$<$ char $>$ \&}]{shingle }\end{DoxyParamCaption})}
+
+
+
+Utility function to return a shingle at each step while reading the input file. 
+
+string construct\+Shingle(deque$<$char$>$) 
+\begin{DoxyParams}{Parameters}
+{\em shingle} & a deque of characters which are the characters in the shingle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string representing the shingle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lsh_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{lsh_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{lsh.cpp@{lsh.cpp}!main@{main}}
+\index{main@{main}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+The main algorithm implementation is in the main function~\newline
+ The main function performs shingling on the input sequence, calculates the signature matrix by performing minhashing,~\newline
+ and computes the Jaccard Similarity between two sequences. 
+
+\begin{DoxyReturn}{Returns}
+int 0 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{lsh_8cpp_a20a0f494ca2c397f664e1911db5e084b}\label{lsh_8cpp_a20a0f494ca2c397f664e1911db5e084b}} 
+\index{lsh.cpp@{lsh.cpp}!S@{S}}
+\index{S@{S}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{S}{S}}
+{\footnotesize\ttfamily int S}
+
+Shingle size 
