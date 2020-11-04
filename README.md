@@ -1,23 +1,26 @@
 # Locality-Sensitive-Hashing-Cpp
 
 <h2>Setup and compilation:</h2>
-The script consists of a Jupyter notebook.<br/>
-The file "plag_check.py" is the same script as the Jupyter notebook, this file was used to generate the documentation.<br/>
-The training files should be moved into the "texts" folder, and the testing files should be moved into the "test" folder.<br/>
-The script checks similarity for ".txt" files as of now.<br/>
+The file lsh.cpp contains the code for the application.<br/>
+
+Steps to run the application:<br/>
+
+Clone the repository on your local storage.<br/>
+Compile the file lsh.cpp. Eg, g++ lsh.cpp<br/>
+Run the executable file that results.<br/>
 The documentation is located in the "html" folder.<br/>
 <br/>
-<b>Required modules:</b><br/>
-If running the file "plag_check.py", the NLTK, num2words, pandas and numpy modules must be installed on the system.<br/>
+<b>Datasets:</b><br/>
+Move a new dataset in txt format in the "data" folder. To use this new dataset, enter the name of the file without .txt when prompted.<br/>
 <br/>
 <h2>Functionality:</h2>
-<b>The plagiarism checker does the following:</b><br/>
-1. Loads files<br/>
-2. Preprocessing (lowercase, removing punctuation, changing numbers to words, lemmatization, stemming)<br/>
-3. Performs tf-idf vectorization on the contents of the files<br/>
-4. Find cosine similarity between the resulting vectors<br/>
-5. Ranks the training documents based on similarity to the testing set<br/>
-6. Return the rank list with similarity percentage<br/>
+<b>The application does the following:</b><br/>
+1. Loads Documents from the dataset<br/>
+2. Shingling<br/>
+3. MinHashing<br/>
+4. Signature Matrix Generation<br/>
+5. Finds the candidate pairs<br/>
+6. Returns the documents with respective DocIDs with a Jaccard Similarity ratio of atleast the threshold similarity ratio.<br/>
 <br/>
 <h2>Citation for the corpus:</h2>
 <b>The test set used in this project is the dog_data.txt file obtained from https://www.kaggle.com/thomasnelson/datasets
