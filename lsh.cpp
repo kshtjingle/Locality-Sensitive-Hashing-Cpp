@@ -113,7 +113,6 @@ void Shingling(map<string, set<int>> &shingles, long long total){
   \param acoeff is the coefficient a in the hash function (ax+b)\%c
   \param bcoeff is the coefficient b in the function (ax+b)\%c
   \param sigMatrix is the signature Matrix
-  \return The similarity score
 */
 
 void Minhashing(map<string, set<int>> &shingles, int H, int c, vector<long long> acoeff, vector<long long> bcoeff, vector<vector<int>> &sigMatrix){
