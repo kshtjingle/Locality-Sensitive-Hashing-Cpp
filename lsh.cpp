@@ -91,7 +91,7 @@ int main(){
 
     //int numDocs = 0;
 
-    auto start = std::chrono::high_resolution_clock::now(); 
+    //auto start = std::chrono::high_resolution_clock::now(); 
 
     //Stores documents, the index is the docID, index 0 is the query document.
     vector<string> documents;
@@ -105,6 +105,10 @@ int main(){
 
     string data = query;
     data.push_back(' ');
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    cout << "Shingling..." << endl;
 
     while(inpFile >> x){
 
@@ -174,8 +178,6 @@ int main(){
 
     }
 
-    //auto stop = std::chrono::high_resolution_clock::now();
-
     vector<pair<int, string>> shinglesInd;
 
     int ind = 0;
@@ -202,13 +204,21 @@ int main(){
 
     auto stop = std::chrono::high_resolution_clock::now();
 
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start); 
+    cout << "Shingling Completed" << " ";
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start); 
+
+    cout << "Time taken: " << duration.count() / 1000 << " seconds" << endl;
 
     //cout << duration.count() << endl;
 
     //cout << docID << endl;
 
     inpFile.close();
+
+    cout << "Generating Signature Matrix..." << endl;
+
+    start = std::chrono::high_resolution_clock::now();
 
     /*-------------Randomly generting H hash functions-------------*/
     vector<long long> acoeff, bcoeff;
@@ -298,6 +308,12 @@ int main(){
 
     }
 
+    stop = std::chrono::high_resolution_clock::now();
+
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+    cout << "Signature Matrix Generation Completed. Time taken: " << duration.count() / 1000 << " seconds" << endl;
+
     //Uncomment this to output the whole signature matrix
     /*for(int i = 0; i < 831; i++){
 
@@ -310,6 +326,10 @@ int main(){
         cout << endl;
 
     }*/
+
+    start = std::chrono::high_resolution_clock::now();
+
+    cout << "Computing the candidate pairs and checking Jaccard similarity..." << endl;
 
     //Stroes Candidte Pairs of Documents
     set<pair<int, int>> candidatePairs;
@@ -417,6 +437,12 @@ int main(){
     }
 
     cout << endl;
+
+    stop = std::chrono::high_resolution_clock::now();
+
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+    cout << "LSH Step Completed. Time Taken: " << duration.count() / 1000 << " seconds" << endl;
 
     cout << endl << "Do you want to enter another query? (Y/N) ";
     cin >> runAgain;
