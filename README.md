@@ -11,7 +11,7 @@ Run the executable file that results.<br/>
 The documentation is located in the "html" folder.<br/>
 <br/>
 <b>Datasets:</b><br/>
-Move a new dataset in txt format in the "data" folder. To use this new dataset, enter the name of the file without .txt when prompted.<br/>
+The dataset is stored in "data" folder.<br/>
 <br/>
 <h2>Functionality:</h2>
 <b>The application does the following:</b><br/>
