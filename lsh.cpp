@@ -406,7 +406,7 @@ int main(){
 
         }
 
-        if(similarity / H >= T){
+        if(similarity / H >= T / 100){
 
             cout << endl;
             cout << "DocID: " << temp.second << endl;
