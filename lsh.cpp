@@ -1,16 +1,39 @@
+/** @file lsh.cpp
+ * @brief Script that implements LSH algorithm to find similar DNA sequences
+ *@author 2017A7PS1226H - Manognya Bhattaram
+ *@author 2018A7PS0434H - Kshitij Ingle
+ *@author 2018A7PS0179H - Rhytham Choudhary
+*/
+
+/**
+*@author 2017A7PS1226H
+*@author 2018A7PS0434H
+*@author 2017A7PS0179H
+*\mainpage Description
+* The following project consists of a single C++ file which is the implementation of the LSH algorithm in the C++ language.<br>
+* The input file used for testing was a file with DNA sequences.<br>
+* The user inputs the shingle size, the number of hash functions to be used, the size of a band, and the threshold (percentage) above which strings are considered to be similar.<br>
+* The user then inputs the query string.<br>
+* The program outputs the DNA sequences which are similar to the query string based on the inputs given.<br>
+*/
+
 #include<bits/stdc++.h>
 
 using namespace std;
 
-//Shingle size
-int S;
+int S;/*!< Shingle size*/
 
-//Utility Macro
 #define watch(x) cout << (#x) << " is " << (x) << endl
+/*!<Utility Macro*/
 
-//Utility function to return a shingle at each step while reading the input file
+/*! \file */
+/*! string constructShingle(deque<char>)
+ \brief Utility function to return a shingle at each step while reading the input file
+ \param shingle a deque of characters which are the characters in the shingle
+ \return A string representing the shingle
+*/
 string constructShingle(deque<char> &shingle){
-    
+
     string ret;
 
     for(int i = 0; i < S; i++){
@@ -23,6 +46,15 @@ string constructShingle(deque<char> &shingle){
 
 }
 
+/*! \file */
+/*! double JaccardSimilarity(int, int, int, vector<vector<int>>)
+  \brief To calculate the Jaccard Similarity between two sequences
+  \param f is the first sequence
+  \param s is the second sequence
+  \param H is the size of the signature Matrix
+  \param sigMatrix is the signature Matrix
+  \return The similarity score
+*/
 double JaccardSimilarity(int f, int s, int H, vector<vector<int>> &sigMatrix){
 
     double similarity = 0;
@@ -41,13 +73,19 @@ double JaccardSimilarity(int f, int s, int H, vector<vector<int>> &sigMatrix){
 
 }
 
+/*! \file */
+/*! void Shingling(map<string, set<int>, long long)
+  \brief To store all the unique shingles, as well as the corresponding set of document IDs contining each shingle
+  \param shingles is a map with keys as k-character shingles, and values as the set of document IDs containing the shingle
+  \param total is the total number of shingles
+*/
+
 void Shingling(map<string, set<int>> &shingles, long long total){
 
     vector<pair<int, string>> shinglesInd;
 
     int ind = 0;
 
-    
 
     for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
 
@@ -58,16 +96,25 @@ void Shingling(map<string, set<int>> &shingles, long long total){
         ind++;
 
         /*for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
-
             cout << *itr2 << " ";
-
         }
-
         cout << endl;*/
 
     }
 
 }
+
+/*! \file */
+/*! void Minhashing(map<string, set<int>>, int, int, vector<long long>, vector<long long>, vector<vector<int>>)
+  \brief Performs the min-hashing step of LSH
+  \param shingles is a map with keys as k-character shingles, and values as the set of document IDs containing the shingle
+  \param c is a prime number greater than the total number of unnique shingles in the dataset
+  \param H is the size of the signature Matrix
+  \param acoeff is the coefficient a in the hash function (ax+b)\%c
+  \param bcoeff is the coefficient b in the function (ax+b)\%c
+  \param sigMatrix is the signature Matrix
+  \return The similarity score
+*/
 
 void Minhashing(map<string, set<int>> &shingles, int H, int c, vector<long long> acoeff, vector<long long> bcoeff, vector<vector<int>> &sigMatrix){
 
@@ -104,6 +151,10 @@ void Minhashing(map<string, set<int>> &shingles, int H, int c, vector<long long>
 
 }
 
+/*! \file */
+/*! \brief The main function calls the other functions of shingling, min-hashing and Jaccard similarity, and finally performs the LSH step of the algorithm
+  \return int 0
+*/
 int main(){
 
     ios::sync_with_stdio(false);
@@ -172,7 +223,7 @@ int main(){
 
     //int numDocs = 0;
 
-    //auto start = std::chrono::high_resolution_clock::now(); 
+    //auto start = std::chrono::high_resolution_clock::now();
 
     //Stores documents, the index is the docID, index 0 is the query document.
     vector<string> documents;
@@ -248,9 +299,9 @@ int main(){
             }
 
             else{
-                
+
                 shingles[shingleStr].insert(docID);
-                
+
             }
 
             shingle.pop_front();
@@ -267,7 +318,7 @@ int main(){
 
     cout << "Shingling Completed" << " ";
 
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start); 
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     cout << "Time taken: " << duration.count() / 1000 << " seconds" << endl;
 
@@ -319,19 +370,12 @@ int main(){
     //int c = 29;
 
     /*for(int i = 0; i < acoeff.size(); i++){
-
         cout << acoeff[i] << " ";
-
     }
-
     cout << endl;
-
     for(int i = 0; i < bcoeff.size(); i++){
-
         cout << bcoeff[i] << " ";
-
     }
-
     cout << endl;*/
 
     //Signature Matrix
@@ -350,15 +394,10 @@ int main(){
 
     //Uncomment this to output the whole signature matrix
     /*for(int i = 0; i < 831; i++){
-
         for(int j = 0; j < 100; j++){
-
             cout << sigMatrix[i][j] << " ";
-
         }
-
         cout << endl;
-
     }*/
 
     start = std::chrono::high_resolution_clock::now();
@@ -451,13 +490,9 @@ int main(){
         double similarity = JaccardSimilarity(temp.first, temp.second, H, sigMatrix);
 
         /*for(int i = 0; i < H; i++){
-
             if(sigMatrix[temp.first][i] == sigMatrix[temp.second][i]){
-
                 similarity++;
-
             }
-
         }*/
 
         if(similarity / H >= T / 100){

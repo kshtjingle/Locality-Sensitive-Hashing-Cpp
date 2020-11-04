@@ -1,0 +1,165 @@
+\hypertarget{lsh_8cpp}{}\doxysection{lsh.\+cpp File Reference}
+\label{lsh_8cpp}\index{lsh.cpp@{lsh.cpp}}
+
+
+Script that implements L\+SH algorithm to find similar D\+NA sequences.  
+
+
+{\ttfamily \#include $<$bits/stdc++.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{lsh_8cpp_a4f0ed6799a6250dec3a22d37e23eb4de}{watch}}(x)~cout $<$$<$ (\#x) $<$$<$ \char`\"{} is \char`\"{} $<$$<$ (x) $<$$<$ endl
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{lsh_8cpp_ac3fb8c2958675bf09d1a3739e21f7274}{construct\+Shingle}} (deque$<$ char $>$ \&shingle)
+\begin{DoxyCompactList}\small\item\em Utility function to return a shingle at each step while reading the input file. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{lsh_8cpp_a77d109debb4d9b744ffa0f4b52092c17}{Jaccard\+Similarity}} (int f, int s, int H, vector$<$ vector$<$ int $>$$>$ \&sig\+Matrix)
+\begin{DoxyCompactList}\small\item\em To calculate the Jaccard Similarity between two sequences. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lsh_8cpp_aa61d940471fc4db56060b854e7b83874}{Shingling}} (map$<$ string, set$<$ int $>$$>$ \&shingles, long long total)
+\begin{DoxyCompactList}\small\item\em To store all the unique shingles, as well as the corresponding set of document I\+Ds contining each shingle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lsh_8cpp_a0064f6b7af8d689e1dd0784baaf7d09b}{Minhashing}} (map$<$ string, set$<$ int $>$$>$ \&shingles, int H, int c, vector$<$ long long $>$ acoeff, vector$<$ long long $>$ bcoeff, vector$<$ vector$<$ int $>$$>$ \&sig\+Matrix)
+\begin{DoxyCompactList}\small\item\em Performs the min-\/hashing step of L\+SH. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lsh_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em The main function calls the other functions of shingling, min-\/hashing and Jaccard similarity, and finally performs the L\+SH step of the algorithm. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{lsh_8cpp_a20a0f494ca2c397f664e1911db5e084b}{S}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Script that implements L\+SH algorithm to find similar D\+NA sequences. 
+
+\begin{DoxyAuthor}{Author}
+2017A7\+P\+S1226H -\/ Manognya Bhattaram 
+
+2018A7\+P\+S0434H -\/ Kshitij Ingle 
+
+2018A7\+P\+S0179H -\/ Rhytham Choudhary
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{lsh_8cpp_a4f0ed6799a6250dec3a22d37e23eb4de}\label{lsh_8cpp_a4f0ed6799a6250dec3a22d37e23eb4de}} 
+\index{lsh.cpp@{lsh.cpp}!watch@{watch}}
+\index{watch@{watch}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{watch}{watch}}
+{\footnotesize\ttfamily \#define watch(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~cout $<$$<$ (\#x) $<$$<$ \char`\"{} is \char`\"{} $<$$<$ (x) $<$$<$ endl}
+
+Utility Macro 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lsh_8cpp_ac3fb8c2958675bf09d1a3739e21f7274}\label{lsh_8cpp_ac3fb8c2958675bf09d1a3739e21f7274}} 
+\index{lsh.cpp@{lsh.cpp}!constructShingle@{constructShingle}}
+\index{constructShingle@{constructShingle}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{constructShingle()}{constructShingle()}}
+{\footnotesize\ttfamily string construct\+Shingle (\begin{DoxyParamCaption}\item[{deque$<$ char $>$ \&}]{shingle }\end{DoxyParamCaption})}
+
+
+
+Utility function to return a shingle at each step while reading the input file. 
+
+string construct\+Shingle(deque$<$char$>$) 
+\begin{DoxyParams}{Parameters}
+{\em shingle} & a deque of characters which are the characters in the shingle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string representing the shingle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lsh_8cpp_a77d109debb4d9b744ffa0f4b52092c17}\label{lsh_8cpp_a77d109debb4d9b744ffa0f4b52092c17}} 
+\index{lsh.cpp@{lsh.cpp}!JaccardSimilarity@{JaccardSimilarity}}
+\index{JaccardSimilarity@{JaccardSimilarity}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{JaccardSimilarity()}{JaccardSimilarity()}}
+{\footnotesize\ttfamily double Jaccard\+Similarity (\begin{DoxyParamCaption}\item[{int}]{f,  }\item[{int}]{s,  }\item[{int}]{H,  }\item[{vector$<$ vector$<$ int $>$$>$ \&}]{sig\+Matrix }\end{DoxyParamCaption})}
+
+
+
+To calculate the Jaccard Similarity between two sequences. 
+
+double Jaccard\+Similarity(int, int, int, vector$<$vector$<$int$>$$>$) 
+\begin{DoxyParams}{Parameters}
+{\em f} & is the first sequence \\
+\hline
+{\em s} & is the second sequence \\
+\hline
+{\em H} & is the size of the signature Matrix \\
+\hline
+{\em sig\+Matrix} & is the signature Matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The similarity score 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lsh_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{lsh_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{lsh.cpp@{lsh.cpp}!main@{main}}
+\index{main@{main}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+The main function calls the other functions of shingling, min-\/hashing and Jaccard similarity, and finally performs the L\+SH step of the algorithm. 
+
+\begin{DoxyReturn}{Returns}
+int 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lsh_8cpp_a0064f6b7af8d689e1dd0784baaf7d09b}\label{lsh_8cpp_a0064f6b7af8d689e1dd0784baaf7d09b}} 
+\index{lsh.cpp@{lsh.cpp}!Minhashing@{Minhashing}}
+\index{Minhashing@{Minhashing}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{Minhashing()}{Minhashing()}}
+{\footnotesize\ttfamily void Minhashing (\begin{DoxyParamCaption}\item[{map$<$ string, set$<$ int $>$$>$ \&}]{shingles,  }\item[{int}]{H,  }\item[{int}]{c,  }\item[{vector$<$ long long $>$}]{acoeff,  }\item[{vector$<$ long long $>$}]{bcoeff,  }\item[{vector$<$ vector$<$ int $>$$>$ \&}]{sig\+Matrix }\end{DoxyParamCaption})}
+
+
+
+Performs the min-\/hashing step of L\+SH. 
+
+void Minhashing(map$<$string, set$<$int$>$$>$, int, int, vector$<$long long$>$, vector$<$long long$>$, vector$<$vector$<$int$>$$>$) 
+\begin{DoxyParams}{Parameters}
+{\em shingles} & is a map with keys as k-\/character shingles, and values as the set of document I\+Ds containing the shingle \\
+\hline
+{\em c} & is a prime number greater than the total number of unnique shingles in the dataset \\
+\hline
+{\em H} & is the size of the signature Matrix \\
+\hline
+{\em acoeff} & is the coefficient a in the hash function (ax+b)\%c \\
+\hline
+{\em bcoeff} & is the coefficient b in the function (ax+b)\%c \\
+\hline
+{\em sig\+Matrix} & is the signature Matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The similarity score 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lsh_8cpp_aa61d940471fc4db56060b854e7b83874}\label{lsh_8cpp_aa61d940471fc4db56060b854e7b83874}} 
+\index{lsh.cpp@{lsh.cpp}!Shingling@{Shingling}}
+\index{Shingling@{Shingling}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{Shingling()}{Shingling()}}
+{\footnotesize\ttfamily void Shingling (\begin{DoxyParamCaption}\item[{map$<$ string, set$<$ int $>$$>$ \&}]{shingles,  }\item[{long long}]{total }\end{DoxyParamCaption})}
+
+
+
+To store all the unique shingles, as well as the corresponding set of document I\+Ds contining each shingle. 
+
+void Shingling(map$<$string, set$<$int$>$, long long) 
+\begin{DoxyParams}{Parameters}
+{\em shingles} & is a map with keys as k-\/character shingles, and values as the set of document I\+Ds containing the shingle \\
+\hline
+{\em total} & is the total number of shingles \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{lsh_8cpp_a20a0f494ca2c397f664e1911db5e084b}\label{lsh_8cpp_a20a0f494ca2c397f664e1911db5e084b}} 
+\index{lsh.cpp@{lsh.cpp}!S@{S}}
+\index{S@{S}!lsh.cpp@{lsh.cpp}}
+\doxysubsubsection{\texorpdfstring{S}{S}}
+{\footnotesize\ttfamily int S}
+
+Shingle size 
