@@ -20,4 +20,4 @@ If running the file "plag_check.py", the NLTK, num2words, pandas and numpy modul
 6. Return the rank list with similarity percentage<br/>
 <br/>
 <h2>Citation for the corpus:</h2>
-<b>The test set used in this project is the dog_dna.txt file obtained from https://www.kaggle.com/thomasnelson/datasets
+<b>The test set used in this project is the dog_data.txt file obtained from https://www.kaggle.com/thomasnelson/datasets
