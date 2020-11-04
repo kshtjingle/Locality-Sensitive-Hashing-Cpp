@@ -2,13 +2,18 @@
 
 using namespace std;
 
+//Shingle size
+int S;
+
+//Utility Macro
 #define watch(x) cout << (#x) << " is " << (x) << endl
 
+//Utility function to return a shingle at each step while reading the input file
 string constructShingle(deque<char> &shingle){
     
     string ret;
 
-    for(int i = 0; i < 9; i++){
+    for(int i = 0; i < S; i++){
 
         ret += shingle[i];
 
@@ -22,14 +27,36 @@ int main(){
 
     ios::sync_with_stdio(false);
 
+    //Initializes the rand function with a different value each time using the current time
     srand(time(0));
 
-    string query;
+    cout << "Enter Shingle Size: ";
+    cin >> S;
 
-    cout << "Enter query:" << " ";
-    cin >> query;
-    //cout << query << endl;
+    //Size of the signature matrix, same as Number of hash functions for minhashing
+    int H;
+    cout << "Enter a size for the signature matrix: ";
+    cin >> H;
 
+    //Band Size
+    int R;
+    cout << "Enter number of rows in a band (size of a band) : ";
+    cin >> R;
+
+    //Number of bands
+    int B = H / R;
+
+    //Threshold similarity percentage
+    double T;
+    cout << "Enter threshold similarity percentage: ";
+    cin >> T;
+
+    //For multiple queries
+    char runAgain = 'Y';
+
+    while(runAgain == 'Y' || runAgain == 'y'){
+
+    /*-------------FILE INPUT-------------*/
     ifstream inpFile;
 
     inpFile.open("data\\dog_data.txt");
@@ -42,11 +69,23 @@ int main(){
 
     }
 
+    //To store the input query
+    string query;
+
+    //UI and Input of query input
+    cout << "Enter query:" << " ";
+    cin >> query;
+
+    //cout << query << endl;
+
+    //Stores the shingles and the docIDs in which they appear
     map<string, set<int>> shingles;
+
     deque<char> shingle;
 
     char x;
 
+    //Utility variables for storing documents from input
     int docID = -1;
     int isDoc = 0;
 
@@ -54,6 +93,7 @@ int main(){
 
     auto start = std::chrono::high_resolution_clock::now(); 
 
+    //Stores documents, the index is the docID, index 0 is the query document.
     vector<string> documents;
     //documents.push_back("Indexing starts at 1, this is not a document");
 
@@ -72,6 +112,7 @@ int main(){
 
     }
 
+    //Shingling
     for(char x : data){
 
         if(x != 'A' && x != 'C' && x != 'G' && x != 'T'){
@@ -87,7 +128,7 @@ int main(){
 
         }
 
-        else if(shingle.size() < 8){
+        else if(shingle.size() < S - 1){
 
             if(isDoc == 0){
 
@@ -169,13 +210,12 @@ int main(){
 
     inpFile.close();
 
-    watch(total);
-
+    /*-------------Randomly generting H hash functions-------------*/
     vector<long long> acoeff, bcoeff;
 
     set<long long> aco, bco;
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < H; i++){
 
         int r;
 
@@ -189,7 +229,7 @@ int main(){
 
     }
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < H; i++){
 
         int r;
 
@@ -207,7 +247,7 @@ int main(){
     int c = 227011;
     //int c = 29;
 
-    for(int i = 0; i < acoeff.size(); i++){
+    /*for(int i = 0; i < acoeff.size(); i++){
 
         cout << acoeff[i] << " ";
 
@@ -221,37 +261,30 @@ int main(){
 
     }
 
-    cout << endl;
+    cout << endl;*/
 
-    vector<vector<int>> sigMatrix(831, vector<int>(100, INT_MAX));
+    //Signature Matrix
+    vector<vector<int>> sigMatrix(831, vector<int>(H, INT_MAX));
 
     int i = 0;
 
+    //Minhashing
     for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
-
-        //watch(i);
 
         int j = 0;
 
         for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
 
-            //watch(*itr2);
-
-            for(int k = 0; k < 100; k++){
+            for(int k = 0; k < H; k++){
 
                 long long ccpy = c;
 
                 long long pot = (((i * acoeff[k]) + bcoeff[k])) % c;
                 int potential = pot;
 
-                /*watch(pot);
-                watch(potential);*/
-
                 if(potential < sigMatrix[*itr2][k]){
 
                     sigMatrix[*itr2][k] = potential;
-
-                    //watch(potential);
 
                 }
 
@@ -265,7 +298,8 @@ int main(){
 
     }
 
-    for(int i = 0; i < 831; i++){
+    //Uncomment this to output the whole signature matrix
+    /*for(int i = 0; i < 831; i++){
 
         for(int j = 0; j < 100; j++){
 
@@ -275,15 +309,10 @@ int main(){
 
         cout << endl;
 
-    }
+    }*/
 
+    //Stroes Candidte Pairs of Documents
     set<pair<int, int>> candidatePairs;
-
-    //Number of Bands, to be replaced by a variable later
-    int B = 20;
-
-    //Band Size, ditto
-    int R = 5;
 
     for(int b = 0; b < B; b++){
 
@@ -350,26 +379,49 @@ int main(){
 
     }
 
+    cout << endl << "Documents similar to the query, with their DocIDs:" << endl;
+
+    //LSH Step
     for(auto itr = candidatePairs.begin(); itr != candidatePairs.end(); ++itr){
 
         pair<int, int> temp = *itr;
 
-        cout << endl;
+        //If this candidate pair does not have the query as one of it's elements, then break out of the loop.
+        if(temp.first != 0){
 
-        cout << temp.first << " " << documents[temp.first] << "\n";
-        cout << temp.second << " " << documents[temp.second] << "\n";
+            break;
+
+        }
+
+        //Computing Jaccard Similarity of the candidate pair
+        double similarity = 0;
+
+        for(int i = 0; i < H; i++){
+
+            if(sigMatrix[temp.first][i] == sigMatrix[temp.second][i]){
+
+                similarity++;
+
+            }
+
+        }
+
+        if(similarity >= T){
+
+            cout << endl;
+            cout << "DocID: " << temp.second << endl;
+            cout << documents[temp.second];
+
+        }
 
     }
 
-    cout << endl << endl;
+    cout << endl;
 
-    for(int i = 0; i < 4; i++){
-
-        cout << documents[i] << endl;
+    cout << endl << "Do you want to enter another query? (Y/N) ";
+    cin >> runAgain;
 
     }
-
-    //watch(total);
 
     return 0;
 
