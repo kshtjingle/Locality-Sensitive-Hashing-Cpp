@@ -23,6 +23,87 @@ string constructShingle(deque<char> &shingle){
 
 }
 
+double JaccardSimilarity(int f, int s, int H, vector<vector<int>> &sigMatrix){
+
+    double similarity = 0;
+
+        for(int i = 0; i < H; i++){
+
+            if(sigMatrix[f][i] == sigMatrix[s][i]){
+
+                similarity++;
+
+            }
+
+        }
+
+        return similarity;
+
+}
+
+void Shingling(map<string, set<int>> &shingles, long long total){
+
+    vector<pair<int, string>> shinglesInd;
+
+    int ind = 0;
+
+    
+
+    for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
+
+        //cout << itr->first << " ";
+        total++;
+
+        shinglesInd.push_back({ind, itr->first});
+        ind++;
+
+        /*for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
+
+            cout << *itr2 << " ";
+
+        }
+
+        cout << endl;*/
+
+    }
+
+}
+
+void Minhashing(map<string, set<int>> &shingles, int H, int c, vector<long long> acoeff, vector<long long> bcoeff, vector<vector<int>> &sigMatrix){
+
+    int i = 0;
+
+    for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
+
+        int j = 0;
+
+        for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
+
+            for(int k = 0; k < H; k++){
+
+                long long ccpy = c;
+
+                long long pot = (((i * acoeff[k]) + bcoeff[k])) % c;
+                int potential = pot;
+
+                if(potential < sigMatrix[*itr2][k]){
+
+                    sigMatrix[*itr2][k] = potential;
+
+                }
+
+            }
+
+            j++;
+
+        }
+
+        i++;
+
+    }
+
+}
+
 int main(){
 
     ios::sync_with_stdio(false);
@@ -178,29 +259,9 @@ int main(){
 
     }
 
-    vector<pair<int, string>> shinglesInd;
-
-    int ind = 0;
-
     long long total = 0;
 
-    for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
-
-        //cout << itr->first << " ";
-        total++;
-
-        shinglesInd.push_back({ind, itr->first});
-        ind++;
-
-        /*for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
-
-            cout << *itr2 << " ";
-
-        }
-
-        cout << endl;*/
-
-    }
+    Shingling(shingles, total);
 
     auto stop = std::chrono::high_resolution_clock::now();
 
@@ -276,37 +337,10 @@ int main(){
     //Signature Matrix
     vector<vector<int>> sigMatrix(831, vector<int>(H, INT_MAX));
 
-    int i = 0;
+    //int i = 0;
 
     //Minhashing
-    for(auto itr = shingles.begin(); itr != shingles.end(); ++itr){
-
-        int j = 0;
-
-        for(auto itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2){
-
-            for(int k = 0; k < H; k++){
-
-                long long ccpy = c;
-
-                long long pot = (((i * acoeff[k]) + bcoeff[k])) % c;
-                int potential = pot;
-
-                if(potential < sigMatrix[*itr2][k]){
-
-                    sigMatrix[*itr2][k] = potential;
-
-                }
-
-            }
-
-            j++;
-
-        }
-
-        i++;
-
-    }
+    Minhashing(shingles, H, c, acoeff, bcoeff, sigMatrix);
 
     stop = std::chrono::high_resolution_clock::now();
 
@@ -414,9 +448,9 @@ int main(){
         }
 
         //Computing Jaccard Similarity of the candidate pair
-        double similarity = 0;
+        double similarity = JaccardSimilarity(temp.first, temp.second, H, sigMatrix);
 
-        for(int i = 0; i < H; i++){
+        /*for(int i = 0; i < H; i++){
 
             if(sigMatrix[temp.first][i] == sigMatrix[temp.second][i]){
 
@@ -424,7 +458,7 @@ int main(){
 
             }
 
-        }
+        }*/
 
         if(similarity / H >= T / 100){
 
