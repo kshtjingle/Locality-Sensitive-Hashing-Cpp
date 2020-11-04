@@ -161,6 +161,15 @@ int main(){
     //Initializes the rand function with a different value each time using the current time
     srand(time(0));
 
+    cout << "Enter name of dataset (Eg 'dog_data') : ";
+    string dataset;
+    cin >> dataset;
+
+    //For multiple queries
+    char runAgain = 'Y';
+
+    while(runAgain == 'Y' || runAgain == 'y'){
+
     cout << "Enter Shingle Size: ";
     cin >> S;
 
@@ -180,17 +189,14 @@ int main(){
     //Threshold similarity percentage
     double T;
     cout << "Enter threshold similarity percentage: ";
-    cin >> T;
-
-    //For multiple queries
-    char runAgain = 'Y';
-
-    while(runAgain == 'Y' || runAgain == 'y'){
+    cin >> T;    
 
     /*-------------FILE INPUT-------------*/
     ifstream inpFile;
 
-    inpFile.open("data\\dog_data.txt");
+    string address = "data\\" + dataset + ".txt";
+
+    inpFile.open(address);
     //inpFile.open("data\\test.txt");
 
     if(!inpFile){
