@@ -20,5 +20,4 @@ If running the file "plag_check.py", the NLTK, num2words, pandas and numpy modul
 6. Return the rank list with similarity percentage<br/>
 <br/>
 <h2>Citation for the corpus:</h2>
-<b>The training and test sets used in this project are selected text files from the following corpus:</b><br/>
-Clough, P. and Stevenson, M. Developing A Corpus of Plagiarised Short Answers, Language Resources and Evaluation: Special Issue on Plagiarism and Authorship Analysis, In Press
+<b>The test set used in this project is the dog_dna.txt file obtained from https://www.kaggle.com/thomasnelson/datasets
